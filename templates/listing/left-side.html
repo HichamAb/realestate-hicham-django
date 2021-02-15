@@ -1,0 +1,35 @@
+{% block left_side %}
+<div class="container">
+    
+</div>
+<div class="card my-4 ">
+    <div class="card-header">
+        <h3 class="text-dark text-center">Filter By State</h3>
+    </div>
+    <div class="card-body left-side">
+        <table class="table text-center">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">State</th>
+                <th scope="col">N°Listings</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for state in states  %}
+                <tr>
+                    <th scope="row">{{state.id}}</th>
+                    <td><a href="{% url 'listing-bystate' state.slug %}">{{state}}</a></td>
+                    <td>{{state.listing_set.count}}</td>
+                </tr>
+                {% endfor %}
+              
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer">
+        <span><br></span>
+    </div>
+</div>
+  
+{% endblock left_side %}

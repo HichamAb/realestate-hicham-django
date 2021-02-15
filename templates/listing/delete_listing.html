@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+    <nav aria-label="breadcrumb" class="mt-3">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item "><a class="text-secondary" href="/">Home</a></li>
+          <li class="breadcrumb-item "><a class="text-secondary disabled" href="#">listing</a></li>
+          <li class="breadcrumb-item "><a class="text-primary " href="{{object.get_absolute_url}}">{{listing}}</a></li>
+          <li class="breadcrumb-item active" aria-current="page"><a class="text-danger" href="#">Delete</a></li>
+        </ol>
+    </nav>
+    <div class="row d-flex justify-content-center mt-3 mb-5">
+        <div class="col-md-6  ">
+            <div class="card">
+                <div class="card-body">
+                    <form class="form" method="POST" action="">
+                        {% csrf_token %}
+                        <p class="card-text ">
+                            {% block trans %}
+                            You are going to delete this listing <a class="text-danger" href="{{object.get_absolute_url}}">{{object}}</a>.
+                            <br>
+                            if you are sure you can press delete button , otherwise click <a class="text-success" href="{% url 'all-listings'%}">here</a>
+                            to return to home page  
+                            {% endblock trans %}
+                            
+
+                        </p>
+
+                        <button class="btn btn-danger float-right">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

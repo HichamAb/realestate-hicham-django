@@ -1,0 +1,1 @@
+[{"model": "listing.transactiontype", "pk": 1, "fields": {"name": "sell", "slug": "sell"}}, {"model": "listing.transactiontype", "pk": 2, "fields": {"name": "buy", "slug": "buy"}}, {"model": "listing.transactiontype", "pk": 3, "fields": {"name": "rent", "slug": "rent"}}]

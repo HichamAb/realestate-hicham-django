@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container">
+    <nav aria-label="breadcrumb" class="mt-3">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item "><a href="/">Home</a></li>
+        <li class="breadcrumb-item "><a href="#">listing</a></li>
+        <li class="breadcrumb-item active" aria-current="page"><a href="#">{{listing}}</a></li>
+      </ol>
+  </nav>
+   
+      <div class="row d-flex justify-content-center">
+       <div class="col-md-5 mt-2" >
+        
+        <div class="card ">
+          
+            <div class="card-header">
+              <h2 class="text-center">About The Realtor</h2>
+          </div>
+          <div class="card-body">
+              <div class="card-img text-center">
+                  <img class="rounded-circle" src="{{listing.realtor.user.profile.image.url|default_if_none:'#' }}" width="150px" height="150px" alt="">
+                  <h2>{{listing.realtor}}</h2>
+              </div>
+          </div>
+      </div>
+      <div class="card my-3">
+        <div class="card-header">
+          <h3 class="text-center">Contact Information</h3>
+        </div>
+          <div class="card-body">
+              
+              <div class="row mb-2">
+                  <div class="col-sm-4">
+                      <h6 class="mb-2">Email</h6>
+                  </div>
+                  <div class="col-sm-8">
+                      <h6 class="mb-2 text-secondary">{{listing.realtor.user.email}}</h6>
+                  </div>
+              </div>
+              <hr>
+              <div class="row mb-2">
+                  <div class="col-sm-4">
+                      <h6 class="mb-2">Phone number</h6>
+                  </div>
+                  <div class="col-sm-8">
+                      <h6 class="mb-2 text-secondary">{{listing.realtor.user.mobile}}</h6>
+                  </div>
+              </div>
+              <hr>
+          </div>
+      </div>
+       </div>
+       <div class="col-md-7 content">
+         <div class="card">
+           
+            <div class="card-header card-title">
+              <h2 class="text-dark text-center">{{listing.title}}</h2>
+            </div>
+            <div class="swiper-container card-img">
+              {% if request.user == listing.realtor.user %}
+                  <div class="d-flex justify-content-end my-2 mx-2">
+                      <a class="btn btn-outline-success me-1" href="{{listing.get_update_url}}">update</a>
+                      <a class="btn btn-outline-danger" href="{{listing.get_delete_url}}">delete</a>
+                  </div>
+              {% endif %}
+            <div class="swiper-wrapper">
+                      {% for image in listing.images.all  %}
+                      <div class="swiper-slide" datahash="slide-{{forloop.counter}}">
+                      
+                        <img class="img-fluid swiper-lazy" src="{{image.image.url}}"  alt="">
+                        <div class="swiper-lazy-preloader"></div>
+                        
+                      </div>
+                      {% endfor %}
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+          </div>
+          <div class="card-body">
+           <div class="d-flex flex-row">
+              <div class="mx-2 text-primary">
+                  <h5><i class="fas fa-bed"></i></h5>
+              </div>
+              <div class="mx-2">
+                  <h5>{{listing.n_bedrooms}}</h5>
+              </div>
+              <div class="mx-2 text-primary">
+                  <h5><i class="fas fa-bath"></i></h5>
+              </div>
+              <div class="mx-2">
+                  <h5>{{listing.n_bathrooms}}</h5>
+              </div>
+              <div class="mx-2 text-primary">
+                  <h5><i class="fas fa-warehouse"></i></h5>
+              </div>
+              {% if listing.garage %}
+              <div class="mx-2">
+                  <h5 class="text-success"><i class="fas fa-check"></i></h5>
+              </div>
+              {% else %}
+              <div class="mx-2">
+                  <h5 class="text-danger"><i class="fas fa-times"></i></h5>
+              </div>
+              {% endif %}
+                  
+              
+
+              <div class="mx-2 text-primary">
+                  <h5>space</h5>
+              </div>
+              <div class="mx-2">
+                  <h5>{{listing.square_meter|floatformat:"-2"}}m²</h5>
+              </div>
+              <hr>
+              <div class="mx-2">
+                  <h5 class="text-secondary">{{listing.realestate_type}}</h5>
+              </div>
+
+
+          </div>
+          <div class="d-flex flex-row">
+              
+              <div class="mx-2">
+                <a href="{{listing.get_listing_byState}}" class="h5">{{listing.state}},</a>
+              </div>
+              
+              <div class="mx-2">
+                <a href="{{listing.get_listing_byCity}}" class="h5">{{listing.city}}</a>
+              </div>
+              {% if listing.neiborhood %}
+              
+              <div class="mx-2">
+                  <h5>{{listing.neiborhood}}</h5>
+              </div>
+              {% endif %}
+                  
+              
+          </div>
+            <p class="card-text">{% lorem 4 b random %} </p>
+           
+            <span class="text-muted">{{listing.added_on|date:"j M Y"}}({{listing.added_on|timesince}} ago)</span>
+
+          </div>
+         </div>
+        </div>
+        
+      </div>
+    
+  </div>
+
+
+  
+{% endblock content %}

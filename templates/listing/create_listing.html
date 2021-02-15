@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+  <div class="container">
+    <nav aria-label="breadcrumb ">
+        <ol class="breadcrumb mt-3">
+          <li class="breadcrumb-item "><a href="/">Home</a></li>
+          <li class="breadcrumb-item "><a href="#">listing</a></li>
+          <li class="breadcrumb-item active" aria-current="page"><a href="#">Create Listing</a></li>
+        </ol>
+    </nav>
+    
+      <div class="text-center text-dark ">
+        <h2>Create New Listing</h2>
+      </div>
+      <form method="POST" action="{% url "listing-create" %}" id="CreateListingForm" data-cities-url="{% url 'ajax_load_cities' %}"  enctype="multipart/form-data">
+        <div class="row">
+          
+          {% csrf_token %}
+          
+          <div class="col-md-4 my-3">
+            <div class="card">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-6">
+                    {{form.state|as_crispy_field}}
+                  </div>
+                  <div class="col-sm-6">
+                    {{form.city|as_crispy_field}}
+                  </div>
+                  
+                </div>
+                <div class="row">
+                  {{form.neiborhood|as_crispy_field}}
+                </div>
+                <div class="row">
+                  {{form.transaction_type|as_crispy_field}}
+                </div>
+                <div class="row">
+                  {{form.realestate_type|as_crispy_field}}
+                </div>
+                <div class="row">
+                  <table class="table">
+                    {{ formset.management_form }}
+                    
+                        {% for form in formset.forms %}
+                        
+                          {{form.errors}}
+                                
+                                <tr class="{% cycle 'row1' 'row2' %} formset_row-{{ formset.prefix }}">
+                                
+                                    {% for field in form.visible_fields %}
+                                    
+                                    <td>
+                                        
+                                        {% if forloop.first %}
+                                            {% for hidden in form.hidden_fields %}
+                                                {{ hidden|as_crispy_field }}
+                                            {% endfor %}
+                                        {% endif %}
+                                        {{ field.errors|crispy}}
+                                        
+                                        {{ field|as_crispy_field }}
+                                    </td>
+                                    {% endfor %}
+                                </tr>
+                        {% endfor %}
+                    
+                    </table>
+                    <br>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+          <div class="col-md-8 my-3">
+            <div class="card">
+              <div class="card-body">
+                <div class="row">
+                  {{form.title|as_crispy_field}}
+                </div>
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="row">
+                      {{form.square_meter|as_crispy_field}}
+                    </div>
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="row">
+                      {{form.n_bedrooms|as_crispy_field}}
+                    </div>
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="row">
+                      {{form.n_bathrooms|as_crispy_field}}
+                    </div>
+                  </div>
+        
+                </div>
+                <div class="row">
+                  {{form.description|safe}}
+                </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    {{form.garage|as_crispy_field}}
+                  </div>
+                  <div class="col-sm-6">
+                    {{form.status|as_crispy_field}}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4 float-right my-3">
+              <button type="submit" class="btn btn-outline-success">Create Listing</button>
+            </div>
+          </div>
+      </div>
+    </form>
+    
+  </div>
+
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script>
+    $("#id_state").change(function () {
+      var url = $("#CreateListingForm").attr("data-cities-url");  // get the url of the `load_cities` view
+      var stateId = $(this).val();  // get the selected state ID from the HTML input
+
+      $.ajax({                       // initialize an AJAX request
+        url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+        data: {
+          'state': stateId       // add the state id to the GET parameters
+        },
+        success: function (data) {   // `data` is the return of the `load_cities` view function
+          $("#id_city").html(data);  // replace the contents of the city input with the data that came from the server
+        }
+      });
+
+    });
+  </script>
+  <script src="{% static 'js/vendors/jquery/dynamic_formset.js' %}">
+  </script>
+  <script type="text/javascript">
+      $('.formset_row-{{ formset.prefix }}').formset({
+          addText: 'new image',
+          deleteText: 'delete',
+          prefix: '{{ formset.prefix }}',
+      });
+  </script>
+
+{% endblock content %}
+
+<!-- 
+  
+ -->

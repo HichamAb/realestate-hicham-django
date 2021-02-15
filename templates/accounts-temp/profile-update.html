@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block content %}
+
+{% load crispy_forms_tags %}
+
+<div class="container-fluid">
+    <div class="Mycontainer">
+        {% if request.user != object.user  %}
+
+    <h1 class="text-center">You can't Edit this page</h1>
+    <a href="{{request.user.profile.get_update_url}}">update your profile here </a>
+
+    {% else %}
+
+    <form method="POST" enctype="multipart/form-data" action="{{request.user.profile.get_update_url}}">
+        {% csrf_token %}
+        <div class="row my-3 d-flex justify-content-center">
+        
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex flex-column align-items-center text-center">
+                            <img class="rounded-circle" src="{{object.image.url|default_if_none:'#' }}" width="150px" height="150px" alt="">
+
+                                {{form.image|as_crispy_field}}
+                        </div>
+                    </div>
+                </div>
+                <div class="card my-3">
+                    <div class="card-body ">
+                        <div class="row mb-2">
+                            <h3 class="text-center">Contact Information</h3>
+                            
+                        </div>
+                        <div class="row mb-2 d-flex align-items-baseline">
+                            <div class="col-sm-5">
+                                <h6 class="mb-2 ">{{form_userinfo.email.label_tag}}</h6>
+                            </div>
+                            <div class="col-sm-7">
+                                <h6 class="mb-2 text-secondary">{{form_userinfo.email|as_crispy_field}}</h6>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row mb-2 d-flex align-items-baseline">
+                            <div class="col-sm-5">
+                                <h6 class="mb-2">{{form_userinfo.mobile.label_tag}}</h6>
+                            </div>
+                            <div class="col-sm-7">
+                                <h6 class="mb-2 text-secondary">{{form_userinfo.mobile|as_crispy_field}}</h6>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row mb-2 d-flex align-items-baseline">
+                            <div class="row mb-2">
+                                <h3 class="text-center">Personal Information</h3>
+                            </div>
+                            <div class="col-sm-2 col-xs-2">
+                                <h6 class="mb-2">{{form_userinfo.first_name.label_tag}}</h6>
+                            </div>
+                            <div class="col-sm-4 col-xs-4">
+                                <h6 class="mb-2 text-secondary">{{form_userinfo.first_name|as_crispy_field}}</h6>
+                            </div>
+                            <div class="col-sm-2 col-xs-2">
+                                <h6 class="mb-2">{{form_userinfo.last_name.label_tag}}</h6>
+                            </div>
+                            <div class="col-sm-4 col-xs-4">
+                                <h6 class="mb-2 text-secondary">{{form_userinfo.last_name|as_crispy_field}}</h6>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row d-flex align-items-baseline">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">{{form.username.label_tag}}</h6>
+                            </div>
+                            <div class="col-sm-4">
+                                <h6 class="mb-0 text-secondary">{{form.username|as_crispy_field}}</h6>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row d-flex align-items-baseline">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">{{form.gender.label_tag}}</h6>
+                            </div>
+                            <div class="col-sm-4">
+                                <h6 class="mb-0 text-secondary">{{form.gender|as_crispy_field}}</h6>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row d-flex align-items-baseline">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">{{form.date_of_birth.label_tag}}</h6>
+                            </div>
+                            <div class="col-sm-4">
+                                <h6 class="mb-0 text-secondary">{{form.date_of_birth|as_crispy_field}}</h6>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                    
+                </div>
+                <div class="text-right">
+                    <button class="btn btn-primary me-3 mt-5">update</button>
+                </div>
+            </div>
+        </div>
+        
+        
+    </form>
+    {% endif %}
+    </div>
+    
+</div>
+
+
+
+
+{% endblock content %}
+
+
+<div class="container">
+    <div class="row my-3 ">
+        <form method="POST" enctype="multipart/form-data">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex flex-column align-items-center text-center">
+                            <img class="rounded-circle" src="{{object.image.url}}" width="150px" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">username</h6>
+                            </div>
+                            <div class="col-sm-9">
+                                <h6 class="mb-0 text-secondary">{{form.user|as_crispy_field}}</h6>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">gender</h6>
+                            </div>
+                            <div class="col-sm-9">
+                                <h6 class="mb-0 text-secondary">{{form.gender|as_crispy_field}}</h6>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">date of birth</h6>
+                            </div>
+                            <div class="col-sm-9">
+                                <h6 class="mb-0 text-secondary">{{form.date_of_birth|as_crispy_field}}</h6>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                    
+                </div>
+            </div>
+            <button class="btn btn-primary">update</button>
+        </form>
+    </div>
+</div>

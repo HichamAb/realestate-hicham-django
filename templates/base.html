@@ -1,0 +1,35 @@
+<html lang="en">
+  {% load i18n %}
+    {% load static %}
+    <!-- HEAD SECTION -->
+    {% include "partials/head.html" %}
+<body>
+    <!-- NAVBAR SECTION -->
+    {% include "partials/navbar.html" %}
+    {% if messages %}
+    <div>
+      <strong>Messages:</strong>
+      <ul>
+        {% for message in messages %}
+        <li>{{message}}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+ 
+    <!-- CONTENT SECTION  -->
+    
+    {% block content %}
+      
+
+      
+    {% endblock content %}
+    
+    
+    <!-- FOOTER SECTION -->
+    {% include "partials/footer.html" %}
+    
+    <!-- JAVASCRIPT FILES -->
+    {% include "partials/scripts.html" %}
+</body>
+</html>
